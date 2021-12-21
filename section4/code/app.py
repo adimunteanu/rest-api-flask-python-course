@@ -31,10 +31,19 @@ class Item(Resource):
         return item, 201
 
     def put(self, name):
-        pass
+        data = request.get_json()
+        item = next(filter(lambda x: (x['name'] == name), items), None)
+        if item is None:
+            item = {'name': name, 'price': data['price']}
+            items.append(item)
+        else:
+            item.update(data)
+        return item
 
     def delete(self, name):
-        pass
+        global items
+        items = list(filter(lambda x: x['name'] != name, items))
+        return {'message': 'Item deleted'}
 
 
 class ItemList(Resource):
