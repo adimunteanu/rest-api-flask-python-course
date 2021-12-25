@@ -70,10 +70,11 @@ class ItemList(Resource):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
-        query = "SELECT * FROM items "
+        query = "SELECT * FROM items"
         result = cursor.execute(query)
-        rows = result.fetchall()
-        connection.close()
+        items = []
+        for row in result:
+            items.append(ItemModel(*row).json())
 
-        items = [{'name': row[0], 'price': row[1]} for row in rows]
-        return {'items': items}, 200 if items else {'message': 'No items found'}, 404
+        connection.close()
+        return {'items': items}, 200

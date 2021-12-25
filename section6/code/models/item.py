@@ -27,7 +27,7 @@ class ItemModel:
         cursor = connection.cursor()
 
         query = "INSERT INTO items VALUES (?, ?)"
-        cursor.execute(query, (self.name, self.name))
+        cursor.execute(query, (self.name, self.price))
         connection.commit()
         connection.close()
 
